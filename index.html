@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Karra Jadvali O'yini</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="game-container">
+    <h1>Karra Jadvali O'yini</h1>
+    <p>Savolga javobni tanlang:</p>
+    <div id="question"></div>
+    <div id="options"></div>
+    <div id="feedback"></div>
+    <div id="score"></div>
+  </div>
+
+  <script>
+    let num1, num2, correctAnswer;
+    let currentQuestion = 0;
+    let score = 0;
+    const totalQuestions = 10;
+
+    function generateQuestion() {
+      if (currentQuestion >= totalQuestions) {
+        document.getElementById('question').innerText = 'O‘yin tugadi!';
+        document.getElementById('options').innerHTML = '';
+        document.getElementById('feedback').innerText = `Sizning natijangiz: ${score}/${totalQuestions}`;
+        document.getElementById('feedback').style.color = '#2563eb';
+        return;
+      }
+
+      num1 = Math.floor(Math.random() * 8) + 2;
+      num2 = Math.floor(Math.random() * 8) + 2;
+      correctAnswer = num1 * num2;
+
+      document.getElementById('question').innerText = `${num1} × ${num2} = ?`;
+      document.getElementById('feedback').innerText = '';
+      document.getElementById('score').innerText = `Savol: ${currentQuestion + 1}/${totalQuestions}`;
+
+      const options = [correctAnswer];
+      while (options.length < 3) {
+        let wrong = Math.floor(Math.random() * 81) + 4;
+        if (!options.includes(wrong)) {
+          options.push(wrong);
+        }
+      }
+      options.sort(() => Math.random() - 0.5);
+
+      const optionsDiv = document.getElementById('options');
+      optionsDiv.innerHTML = '';
+      options.forEach(option => {
+        const btn = document.createElement('button');
+        btn.innerText = option;
+        btn.className = 'option';
+        btn.onclick = () => checkAnswer(option);
+        optionsDiv.appendChild(btn);
+      });
+    }
+
+    function checkAnswer(selected) {
+      const feedback = document.getElementById('feedback');
+      if (selected === correctAnswer) {
+        feedback.innerText = '✅ Zo‘r! To‘g‘ri!';
+        feedback.style.color = '#16a34a';
+        score++;
+      } else {
+        feedback.innerText = '❌ Noto‘g‘ri. To‘g‘ri javob: ' + correctAnswer;
+        feedback.style.color = '#dc2626';
+      }
+      currentQuestion++;
+      setTimeout(generateQuestion, 1500);
+    }
+
+    generateQuestion();
+  </script>
+</body>
+</html>
