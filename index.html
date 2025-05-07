@@ -13,6 +13,7 @@
     <div id="question"></div>
     <div id="options"></div>
     <div id="feedback"></div>
+    <button id="restart" style="display: none;" onclick="restartGame()">Qaytadan boshlash</button>
     <div id="score"></div>
   </div>
 
@@ -28,6 +29,7 @@
         document.getElementById('options').innerHTML = '';
         document.getElementById('feedback').innerText = `Sizning natijangiz: ${score}/${totalQuestions}`;
         document.getElementById('feedback').style.color = '#2563eb';
+        document.getElementById('restart').style.display = 'block'; // Show restart button
         return;
       }
 
@@ -71,6 +73,13 @@
       }
       currentQuestion++;
       setTimeout(generateQuestion, 1500);
+    }
+
+    function restartGame() {
+      currentQuestion = 0;
+      score = 0;
+      document.getElementById('restart').style.display = 'none'; // Hide restart button
+      generateQuestion();
     }
 
     generateQuestion();
