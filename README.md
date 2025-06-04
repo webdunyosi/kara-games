@@ -1,5 +1,5 @@
-# Food Lover
-Food Lover for Restarant
+# Kara games
+Kara games for children
 
 - Html5
 - Tailwindcss
