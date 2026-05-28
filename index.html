@@ -1,159 +1,19 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uz">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Karra Jadvali O'yini</title>
-  <!-- Google Fonts for modern premium typography -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
-  <!-- Telegram Web App SDK -->
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <div class="game-container">
-    <!-- User greeting badge -->
-    <div id="user-badge" class="user-badge" style="display: none;">
-      <span id="user-name">Mehmon</span>
-    </div>
-    
-    <h1>Karra Jadvali</h1>
-    <p class="subtitle">Savolga to'g'ri javobni tanlang:</p>
-    
-    <div id="question-card" class="question-card">
-      <div id="question"></div>
-    </div>
-    
-    <div id="options"></div>
-    <div id="feedback"></div>
-    <button id="restart" onclick="restartGame()">Qaytadan boshlash</button>
-    <div id="score"></div>
-  </div>
-
-  <script>
-    // Initialize Telegram WebApp API
-    const tg = window.Telegram ? window.Telegram.WebApp : null;
-    
-    if (tg && tg.initData) {
-      tg.ready();
-      tg.expand(); // Expand to full screen height in Telegram
-      
-      // Add class to body to apply Telegram colors dynamically
-      document.body.classList.add('tg-theme-loaded');
-      
-      // Adapt Telegram theme headers
-      if (tg.setHeaderColor) {
-        tg.setHeaderColor('secondary_bg_color');
-      }
-    }
-
-    let num1, num2, correctAnswer;
-    let currentQuestion = 0;
-    let score = 0;
-    const totalQuestions = 10;
-
-    // Display Telegram User Info if available
-    function initTelegramUser() {
-      if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
-        const user = tg.initDataUnsafe.user;
-        const nameSpan = document.getElementById('user-name');
-        const badge = document.getElementById('user-badge');
-        
-        nameSpan.innerText = `👋 Salom, ${user.first_name || user.username}!`;
-        badge.style.display = 'inline-block';
-      }
-    }
-
-    function generateQuestion() {
-      if (currentQuestion >= totalQuestions) {
-        document.getElementById('question').innerText = '🏆 O‘yin tugadi!';
-        document.getElementById('options').innerHTML = '';
-        document.getElementById('feedback').innerText = `Sizning natijangiz: ${score}/${totalQuestions}`;
-        document.getElementById('feedback').style.color = '#60a5fa';
-        document.getElementById('restart').style.display = 'inline-block'; // Show restart button
-        
-        // Haptic feedback for game completion
-        if (tg && tg.HapticFeedback) {
-          tg.HapticFeedback.notificationOccurred('success');
-        }
-        return;
-      }
-
-      num1 = Math.floor(Math.random() * 8) + 2;
-      num2 = Math.floor(Math.random() * 8) + 2;
-      correctAnswer = num1 * num2;
-
-      document.getElementById('question').innerText = `${num1} × ${num2} = ?`;
-      document.getElementById('feedback').innerText = '';
-      document.getElementById('score').innerText = `Savol: ${currentQuestion + 1}/${totalQuestions}`;
-
-      const options = [correctAnswer];
-      while (options.length < 3) {
-        let wrong = Math.floor(Math.random() * 81) + 4;
-        if (!options.includes(wrong)) {
-          options.push(wrong);
-        }
-      }
-      options.sort(() => Math.random() - 0.5);
-
-      const optionsDiv = document.getElementById('options');
-      optionsDiv.innerHTML = '';
-      options.forEach(option => {
-        const btn = document.createElement('button');
-        btn.innerText = option;
-        btn.className = 'option';
-        btn.onclick = () => checkAnswer(option);
-        optionsDiv.appendChild(btn);
-      });
-    }
-
-    function checkAnswer(selected) {
-      const feedback = document.getElementById('feedback');
-      
-      // Disable buttons temporarily to prevent double click
-      const buttons = document.querySelectorAll('.option');
-      buttons.forEach(btn => btn.disabled = true);
-
-      if (selected === correctAnswer) {
-        feedback.innerText = '✅ Zo‘r! To‘g‘ri!';
-        feedback.className = 'feedback-message success';
-        score++;
-        
-        // Trigger haptic feedback success vibration
-        if (tg && tg.HapticFeedback) {
-          tg.HapticFeedback.notificationOccurred('success');
-        }
-      } else {
-        feedback.innerText = '❌ Noto‘g‘ri. To‘g‘ri javob: ' + correctAnswer;
-        feedback.className = 'feedback-message error';
-        
-        // Trigger haptic feedback error vibration
-        if (tg && tg.HapticFeedback) {
-          tg.HapticFeedback.notificationOccurred('error');
-        }
-      }
-      
-      currentQuestion++;
-      setTimeout(generateQuestion, 1200);
-    }
-
-    function restartGame() {
-      currentQuestion = 0;
-      score = 0;
-      document.getElementById('restart').style.display = 'none'; // Hide restart button
-      
-      if (tg && tg.HapticFeedback) {
-        tg.HapticFeedback.impactOccurred('medium');
-      }
-      
-      generateQuestion();
-    }
-
-    // Run setup on load
-    initTelegramUser();
-    generateQuestion();
-  </script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Karra Jadvali O'yini</title>
+    <!-- Google Fonts for modern premium typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Telegram Web App SDK -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  </head>
+  <body class="bg-[#0f172a] text-[#f8fafc] overflow-hidden select-none">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>
