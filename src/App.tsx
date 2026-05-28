@@ -3,6 +3,7 @@ import { GameProvider } from './context/GameContext';
 import { Home } from './pages/Home';
 import { Game } from './pages/Game';
 import { Stats } from './pages/Stats';
+import { DuoGame } from './pages/DuoGame';
 import { Toaster } from 'react-hot-toast';
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/game" element={<Game />} />
           <Route path="/stats" element={<Stats />} />
+          <Route path="/duo" element={<DuoGame />} />
           {/* Fallback route */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
