@@ -149,10 +149,6 @@ export const Home: React.FC = () => {
           </button>
         </div>
 
-        {/* Version footer */}
-        <div className="mt-8 text-[10px] text-slate-500 font-semibold tracking-wider uppercase">
-          v2.1 • React + Tailwind CSS
-        </div>
       </div>
     </div>
   );
